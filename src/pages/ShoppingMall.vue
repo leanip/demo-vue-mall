@@ -40,13 +40,22 @@
     floor(:floorData='floor2' :floorTitle='floorName.floor2' :floorLevel='2')
     floor(:floorData='floor3' :floorTitle='floorName.floor3' :floorLevel='3')
     // hot
+    .hot-area
+      .hot-title  热卖商品
+      .hot-goods
+        van-list
+          van-row(gutter='20' v-if='hotGoods')
+            van-col(span='12' v-for='(goods, index) in hotGoods' :key='index')
+              goods(v-if='goods' :image='goods.image' :name='goods.name' :price='goods.price')
 </template>
 
 <script>
   import axios from 'axios'
-  import floor from '../component/Floor'
-  import { toMoney } from '../../filter/money.js'
+  import floor from '@/components/Floor'
+  import goods from '@/components/GoodsInfo'
+  import { toMoney } from '@/filters/money'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import URL from '@/serviceAPI.config'
   import 'swiper/dist/css/swiper.css'
 
   export default {
@@ -55,7 +64,7 @@
         swiperOption: {
           slidesPerView: 3
         },
-        locationIcon: require('../../assets/img/location.png'),
+        locationIcon: require('../assets/img/location.png'),
         bannerPicArray: [],
         category: [],
         adBanner: '',
@@ -63,7 +72,8 @@
         floor1: [],
         floor2: [],
         floor3: [],
-        floorName: {}
+        floorName: {},
+        hotGoods: []
       }
     },
     filters: {
@@ -73,7 +83,7 @@
     },
     created() {
       axios({
-        url: ' https://www.easy-mock.com/mock/5b346843a20d3765be60e541/svue/',
+        url: URL.getShoppingMallInfo,
         method: 'get'
       })
       .then(res => {
@@ -88,6 +98,7 @@
           this.floor2 = data.floor2
           this.floor3 = data.floor3
           this.floorName = data.floorName
+          this.hotGoods = data.hotGoods
         }
       })
       .catch(err => {
@@ -97,7 +108,8 @@
     components: {
       swiper,
       swiperSlide,
-      floor
+      floor,
+      goods
     }
   }
 </script>
@@ -181,5 +193,9 @@
               font-size: 10px
               text-decoration: line-through
               color: #ccc
-
+  .hot-area
+    height: 1.8rem
+    line-height: 1.8rem
+    font-size: 14px
+    text-align: center
 </style>

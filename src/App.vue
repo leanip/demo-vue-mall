@@ -13,6 +13,7 @@ export default {
 #app
   width: 100vw
   height: 100vh
+  overflow-x: hidden
 img
   vertical-align: top
 </style>

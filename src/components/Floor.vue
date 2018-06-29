@@ -5,15 +5,15 @@
       span.title {{floorTitle}}
     .floor-anomaly
       .floor-1
-        img(:src='floorData[0].image' width='100%')
+        img(v-lazy='floorData1.image' width='100%')
       div
         .floor-2
-          img(:src='floorData[1].image' width='100%')
+          img(v-lazy='floorData2.image' width='100%')
         div
-          img(:src='floorData[2].image' width='100%')
+          img(v-lazy='floorData3.image' width='100%')
     .floor-rule
       .item(v-for='(item,index) in floorData.slice(3)' :key='index')
-        img(:src='item.image' width='100%')
+        img(v-lazy='item.image' width='100%')
 </template>
 
 <script>
@@ -24,7 +24,18 @@
       'floorLevel'
     ],
     data() {
-      return {}
+      return {
+        floorData1: {},
+        floorData2: {},
+        floorData3: {}
+      }
+    },
+    watch: {
+      floorData() {
+        this.floorData1 = this.floorData[0]
+        this.floorData2 = this.floorData[1]
+        this.floorData3 = this.floorData[2]
+      }
     }
   }
 </script>
