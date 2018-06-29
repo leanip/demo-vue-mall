@@ -87,7 +87,6 @@
         method: 'get'
       })
       .then(res => {
-        console.log(res.data.data)
         if (res.status === 200) {
           let data = res.data.data
           this.category = data.category
