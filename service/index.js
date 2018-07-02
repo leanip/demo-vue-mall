@@ -6,6 +6,7 @@ const cors = require('koa2-cors')
 
 const { connect, initSchema } = require('./batabase/init')
 const user = require('./appApi/user')
+const goods = require('./appApi/goods')
 
 const app = new Koa()
 const router = new Router()
@@ -15,6 +16,7 @@ app.use(cors())
 
 // 装载子路由
 router.use('/user', user.routes())
+router.use('/goods', goods.routes())
 
 // 加载路由中间件
 app.use(router.routes())

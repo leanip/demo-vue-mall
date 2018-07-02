@@ -37,6 +37,12 @@
         passwordErrorMsg: '',
       }
     },
+    created() {
+      if (localStorage.userInfo) {
+        Toast.success('您已经登录过了')
+        this.$router.push('/')
+      }
+    },
     methods: {
       goBack() {
         this.$router.go(-1)
@@ -56,8 +62,19 @@
         })
         .then(res => {
           if (res.data.code === 200) {
-            Toast.success('登录成功')
-            this.$router.push('/')
+            new Promise((resolve, reject) => {
+              localStorage.userInfo = {username: this.username}
+              setTimeout(() => {
+                resolve()
+              }, 500)
+            })
+            .then(() => {
+              Toast.success('登录成功')
+              this.$router.push('/')
+            }).catch(err => {
+              Toast.fail('保存用户信息失败')
+              console.log(err)
+            })
           } else {
             Toast.fail(res.data.message)
             this.openLoading = false

@@ -8,7 +8,8 @@
         placeholder='请输入用户名'
         icon='clear'
         @click-icon='username=""'
-        required :error-message='usernameErrorMsg')
+        required
+        :error-message='usernameErrorMsg')
       van-field(
         v-model='password'
         type='password'

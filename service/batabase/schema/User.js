@@ -7,7 +7,7 @@ let ObjectId = Schema.Types.ObjectId
 
 // 创建用户Schema
 const userSchema = new Schema({
-  userId: ObjectId,
+  userId: { type: ObjectId },
   username: { unique: true, type: String },
   password: String,
   createdAt: { type: Date, default: Date.now() },
