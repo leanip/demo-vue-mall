@@ -1,5 +1,5 @@
 <template lang='pug'>
-  .goods-info
+  .goods-info(@click='goGoodsPage')
     .goods-image
       img(v-lazy='image' width='90%')
     .goods-name {{name}}
@@ -13,11 +13,17 @@
     props: [
       'image',
       'name',
-      'price'
+      'price',
+      'goodsId'
     ],
     filters: {
       moneyFilter(money) {
         return toMoney(money)
+      }
+    },
+    methods: {
+      goGoodsPage() {
+        this.$router.push({name: 'Goods', query:{goodsId: this.goodsId}})
       }
     }
   }

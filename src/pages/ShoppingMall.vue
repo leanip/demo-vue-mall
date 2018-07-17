@@ -46,13 +46,13 @@
         van-list
           van-row(gutter='20' v-if='hotGoods')
             van-col(span='12' v-for='(goods, index) in hotGoods' :key='index')
-              goods(v-if='goods' :image='goods.image' :name='goods.name' :price='goods.price')
+              goods-info(v-if='goods' :image='goods.image' :name='goods.name' :price='goods.price' :goodsId='goods.goodsId')
 </template>
 
 <script>
   import axios from 'axios'
   import floor from '@/components/Floor'
-  import goods from '@/components/GoodsInfo'
+  import goodsInfo from '@/components/GoodsInfo'
   import { toMoney } from '@/filters/money'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   import URL from '@/serviceAPI.config'
@@ -108,7 +108,7 @@
       swiper,
       swiperSlide,
       floor,
-      goods
+      goodsInfo
     }
   }
 </script>

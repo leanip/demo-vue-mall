@@ -76,7 +76,6 @@ router.post('/getGoodsDetail', async ctx => {
     let { goodsId } = ctx.request.body
     const Goods = mongoose.model('Goods')
     let result = await Goods.findOne({ ID: goodsId }).exec()
-    console.log(result)
     ctx.body = {
       code: 200,
       data: result
