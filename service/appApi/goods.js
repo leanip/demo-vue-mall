@@ -88,4 +88,41 @@ router.post('/getGoodsDetail', async ctx => {
   }
 })
 
+router.get('/getCategoryList', async ctx => {
+  try {
+    const Category = mongoose.model('Category')
+    const result = await Category.find().exec()
+    ctx.body = {
+      code: 200,
+      message: result
+    }
+  } catch (err) {
+    ctx.body = {code: 500, message: err}
+  }
+})
+
+router.get('/getCategorySubList', async ctx => {
+  try {
+    // const { categoryId } = ctx.request.body
+    const categoryId = 1
+    const CategorySub = mongoose.model('CategorySub')
+    const result = await CategorySub.find({MALL_CATEGORY_ID: categoryId }).exec()
+    ctx.body = {code: 200, message: result}
+  } catch (err) {
+    ctx.body = {code: 500, message: err}
+  }
+})
+
+router.get('/getGoodsListByCategorySubID', async ctx => {
+  try {
+    // const { categorySubId } = ctx.request.body
+    let categorySubId = '2c9f6c946016ea9b016016f79c8e0000'
+    const Goods = mongoose.model('Goods')
+    const result = await Goods.find({SUB_ID: categorySubId}).exec()
+    ctx.body = {code: 200, message: result}
+  } catch (err) {
+    ctx.body = {code: 500, message: err}
+  }
+})
+
 module.exports = router

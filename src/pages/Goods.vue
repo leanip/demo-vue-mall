@@ -11,10 +11,10 @@
     .goods-name {{goods.NAME}}
     .goods-price 价格：￥{{goods.PRESENT_PRICE | moneyFilter}}
     .detail-wrap
-      van-tabs
+      van-tabs(swipeable stiky)
         van-tab(title='商品详情')
           .detail(v-html='goods.DETAIL')
-        van-tab(title='评价')
+        van-tab(title='评价') 开发中……
     // 底部按钮
     .goods-bottom
       div
