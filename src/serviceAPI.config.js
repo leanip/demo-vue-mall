@@ -6,6 +6,7 @@ const URL = {
   registerUser: LOCALURL + 'user/register',
   login: LOCALURL + 'user/login',
   getGoodsDetail: LOCALURL + 'goods/getGoodsDetail',
+  getCategoryList: LOCALURL + 'goods/getCategoryList'
 }
 
 module.exports = URL
