@@ -9,10 +9,13 @@
             li(
               v-for='(item, index) in category'
               :key='item.ID'
-              @click='clickCategory(index)'
+              @click='clickCategory(index, item.ID)'
               :class='{"category-active": categoryIndex === index}'
             ) {{item.MALL_CATEGORY_NAME}}
       van-col(span='18')
+        .tabCategorySub
+          van-tabs(v-model='active')
+            van-tab(v-for='(item, index) in categorySub' :key='index' :title='item.MALL_SUB_NAME')
 </template>
 
 <script>
@@ -29,17 +32,20 @@
       }
     },
     created () {
-      this.getCategory()
+      this.getCategory(() => {
+        this.getCategorySubByCategoryId(this.category[0].ID)
+      })
     },
     mounted () {
       let winHeight = document.documentElement.clientHeight
       document.getElementById('leftNav').style.height = winHeight - 46 + 'px'
     },
     methods: {
-      clickCategory (index) {
+      clickCategory (index, id) {
         this.categoryIndex = index
+        this.getCategorySubByCategoryId(id)
       },
-      getCategory () {
+      getCategory (cb) {
         axios({
           url: url.getCategoryList,
           method: 'get'
@@ -48,6 +54,7 @@
           console.log(res)
           if (res.data.code === 200 && res.data.message) {
             this.category = res.data.message
+            cb && cb()
           } else {
             Toast('获取列表错误')
           }
@@ -67,6 +74,9 @@
           } else {
             Toast('服务器错误，获取数据失败')
           }
+        })
+        .catch(err => {
+          console.log(err)
         })
       }
     }
