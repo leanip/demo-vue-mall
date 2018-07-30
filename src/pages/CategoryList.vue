@@ -16,6 +16,14 @@
         .tabCategorySub
           van-tabs(v-model='active')
             van-tab(v-for='(item, index) in categorySub' :key='index' :title='item.MALL_SUB_NAME')
+        #list-div
+          van-pull-refresh(v-model='isRefresh' @refresh='onRefresh')
+            van-list(
+              v-model='loading'
+              :finished='finished'
+              @load='onLoad'
+            )
+              .list-item(v-for='item in list' :key='item') {{item}}
 </template>
 
 <script>
@@ -28,7 +36,11 @@
         active: 0,
         category: [],
         categorySub: [],
-        categoryIndex: 0
+        categoryIndex: 0,
+        list: [],
+        loading: false,
+        finished: false,
+        isRefresh: false
       }
     },
     created () {
@@ -39,6 +51,7 @@
     mounted () {
       let winHeight = document.documentElement.clientHeight
       document.getElementById('leftNav').style.height = winHeight - 46 + 'px'
+      document.getElementById('list-div').style.height = winHeight - 90 + 'px'
     },
     methods: {
       clickCategory (index, id) {
@@ -78,6 +91,24 @@
         .catch(err => {
           console.log(err)
         })
+      },
+      onLoad () {
+        setTimeout(() => {
+          for (let i = 0; i < 10; i++) {
+            this.list.push(this.list.length + 1)
+          }
+          this.loading = false
+          if (this.list.length >= 40) {
+            this.finished = true
+          }
+        }, 500)
+      },
+      onRefresh () {
+        setTimeout(() => {
+          this.isRefresh = false
+          this.list = []
+          this.onLoad()
+        }, 500)
       }
     }
   }
@@ -95,4 +126,13 @@
 
   .category-active
     background-color: #fff
+
+.list-item
+  text-align: center
+  line-height: 80px
+  border-bottom: 1px solid #f0f0f0
+  background-color: #fff
+
+#list-div
+  overflow: scroll
 </style>
