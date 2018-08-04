@@ -23,7 +23,12 @@
               :finished='finished'
               @load='onLoad'
             )
-              .list-item(v-for='item in list' :key='item') {{item}}
+              .list-item(v-for='(item, index) in goodsList' :key='index')
+                .list-item-img
+                  img(:src='item.IMAGE1' width='100%')
+                .list-item-text
+                  div {{item.NAME}}
+                  div ￥ {{item.ORI_PRICE}}
 </template>
 
 <script>
@@ -40,7 +45,10 @@
         list: [],
         loading: false,
         finished: false,
-        isRefresh: false
+        isRefresh: false,
+        page: 1,
+        goodsList: [],
+        categorySubId: ''
       }
     },
     created () {
@@ -56,6 +64,9 @@
     methods: {
       clickCategory (index, id) {
         this.categoryIndex = index
+        this.page = 1
+        this.finished = false
+        this.goodsList = []
         this.getCategorySubByCategoryId(id)
       },
       getCategory (cb) {
@@ -94,14 +105,9 @@
       },
       onLoad () {
         setTimeout(() => {
-          for (let i = 0; i < 10; i++) {
-            this.list.push(this.list.length + 1)
-          }
-          this.loading = false
-          if (this.list.length >= 40) {
-            this.finished = true
-          }
-        }, 500)
+          this.categorySubId = this.categorySubId ? this.categorySubId : this.categorySub[0].ID
+          this.getGoodsList()
+        }, 1000)
       },
       onRefresh () {
         setTimeout(() => {
@@ -109,6 +115,37 @@
           this.list = []
           this.onLoad()
         }, 500)
+      },
+      getGoodsList () {
+        axios({
+          url: url.getGoodsListByCategorySubID,
+          method: 'post',
+          data: {
+            categorySubId: this.categorySubId,
+            page: this.page
+          }
+        })
+        .then(res => {
+          console.log(res)
+          if (res.data.code === 200 && res.data.message.length) {
+            this.page++
+            this.goodsList = this.goodsList.concat(res.data.message)
+          } else {
+            this.finished = true
+          }
+          this.loading = false
+          console.log(this.finished)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      },
+      onClickCategorySub (index, title) {
+        this.categorySubId = this.categorySub[index].ID
+        this.goodsList = []
+        this.finished = false
+        this.page = 1
+        this.onLoad()
       }
     }
   }
@@ -135,4 +172,24 @@
 
 #list-div
   overflow: scroll
+
+.list-item
+  display: flex
+  flex-direction: row
+  font-size:0.8rem
+  border-bottom: 1px solid #f0f0f0
+  background-color: #fff
+  padding:5px
+
+#list-div
+  overflow: scroll
+
+.list-item-img
+  flex:8
+
+.list-item-text
+  flex:16
+  margin-top:10px
+  margin-left:10px
+
 </style>
