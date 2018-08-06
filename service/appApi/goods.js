@@ -114,7 +114,6 @@ router.post('/getCategorySubList', async ctx => {
 
 router.post('/getGoodsListByCategorySubID', async ctx => {
   try {
-    console.log(ctx.request.body)
     const { categorySubId, page } = ctx.request.body
     const num = 10
     const start = (page - 1) * num

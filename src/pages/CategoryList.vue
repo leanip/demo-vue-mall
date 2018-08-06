@@ -25,7 +25,7 @@
             )
               .list-item(v-for='(item, index) in goodsList' :key='index')
                 .list-item-img
-                  img(:src='item.IMAGE1' width='100%')
+                  img(:src='item.IMAGE1' width='100%' :onerror='errorImg')
                 .list-item-text
                   div {{item.NAME}}
                   div ￥ {{item.ORI_PRICE}}
@@ -48,7 +48,8 @@
         isRefresh: false,
         page: 1,
         goodsList: [],
-        categorySubId: ''
+        categorySubId: '',
+        errorImg: `this.src="${require('@/assets/img/errorImg.jpg')}"` // 失效替补图片
       }
     },
     created () {
