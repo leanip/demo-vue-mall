@@ -112,9 +112,10 @@ router.post('/getCategorySubList', async ctx => {
   }
 })
 
-router.get('/getGoodsListByCategorySubID', async ctx => {
+router.post('/getGoodsListByCategorySubID', async ctx => {
   try {
-    const { categorySubId, page } = ctx.body
+    console.log(ctx.request.body)
+    const { categorySubId, page } = ctx.request.body
     const num = 10
     const start = (page - 1) * num
     const Goods = mongoose.model('Goods')

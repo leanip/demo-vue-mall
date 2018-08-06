@@ -112,7 +112,9 @@
       onRefresh () {
         setTimeout(() => {
           this.isRefresh = false
-          this.list = []
+          this.finished = false
+          this.goodsList = []
+          this.page = 1
           this.onLoad()
         }, 500)
       },
@@ -176,20 +178,20 @@
 .list-item
   display: flex
   flex-direction: row
-  font-size:0.8rem
+  font-size: 0.8rem
   border-bottom: 1px solid #f0f0f0
   background-color: #fff
-  padding:5px
+  padding: 5px
 
 #list-div
   overflow: scroll
 
 .list-item-img
-  flex:8
+  flex: 8
 
 .list-item-text
-  flex:16
-  margin-top:10px
-  margin-left:10px
+  flex: 16
+  margin-top: 10px
+  margin-left: 10px
 
 </style>
