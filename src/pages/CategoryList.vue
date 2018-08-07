@@ -23,17 +23,18 @@
               :finished='finished'
               @load='onLoad'
             )
-              .list-item(v-for='(item, index) in goodsList' :key='index')
+              .list-item(v-for='(item, index) in goodsList' :key='index' @click='goGoodsInfo(item.ID)')
                 .list-item-img
                   img(:src='item.IMAGE1' width='100%' :onerror='errorImg')
                 .list-item-text
                   div {{item.NAME}}
-                  div ￥ {{item.ORI_PRICE}}
+                  div ￥ {{item.ORI_PRICE | moneyFilter}}
 </template>
 
 <script>
   import axios from 'axios'
   import url from '@/serviceAPI.config'
+  import { toMoney } from '@/filters/money'
 
   export default {
     data () {
@@ -61,6 +62,11 @@
       let winHeight = document.documentElement.clientHeight
       document.getElementById('leftNav').style.height = winHeight - 46 + 'px'
       document.getElementById('list-div').style.height = winHeight - 90 + 'px'
+    },
+    filters: {
+      moneyFilter (money) {
+        return toMoney(money)
+      }
     },
     methods: {
       clickCategory (index, id) {
@@ -149,6 +155,9 @@
         this.finished = false
         this.page = 1
         this.onLoad()
+      },
+      goGoodsInfo (id) {
+        this.$router.push({name: 'Goods', params: {goodsId: id}})
       }
     }
   }
